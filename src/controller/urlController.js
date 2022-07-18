@@ -1,7 +1,7 @@
 const urlModel=require('../model/urlModel')
 const shortId=require('short-unique-id')
 const validUrl = require('valid-url');
-const {isValid}=require('../middleware/validation')
+const validator=require('../middleware/validation')
 
 
 
@@ -17,13 +17,37 @@ const createShortUrl=async function(req,res){
     try {
         const data=req.body
 
-        if(Object.keys(data).length==0)return res.status(400).send({status:false,msg:"object can not be empty,enter valid data"})
-
-        if(!data.longUrl.trim())return res.status(400).send({status:false,msg:"longUrl is required and can not be empty"})
         
-     //   if(!isValid(data.longUrl))return res.status(400).send({status:false,msg:"input must be type string"})
+        // //validation for body
+        // if (validator.isBodyExist(data)) {
+        //     return res.status(400).send({ status: false, message: "Data is required, Please provide Url details." })
+        // }
 
-        if(!validUrl.isWebUri(data.longUrl.trim()))return res.status(400).send({status:false,msg:"enter valid Url"})
+        // //validation for Longurl
+        // if (!Object.keys(data).includes("longUrl"))
+        //     return res.status(400).send({ status: false, message: "longUrl is required." });
+        // if (typeof (data.longUrl) != "string") {
+        //     return res.status(400).send({ status: false, message: "Url must be a string." });
+        // }
+        // if (data.longUrl.trim() == '') {
+        //     return res.status(400).send({ status: false, message: "url input can't be empty." });
+        // }
+        // if(!validUrl.isWebUri(data.longUrl.trim())){
+        //     return res.status(400).send({status:false,msg:"enter valid Url"})
+        // }
+        // if (await urlModel.findOne({ longUrl: data.longUrl })) {
+        //     return res.status(400).send({ status: false, message: "Url already present." });
+
+        // }
+
+
+    //     if(Object.keys(data).length==0)return res.status(400).send({status:false,msg:"object can not be empty,enter valid data"})
+
+    //     if(!data.longUrl.trim())return res.status(400).send({status:false,msg:"longUrl is required and can not be empty"})
+        
+    //  //   if(!isValid(data.longUrl))return res.status(400).send({status:false,msg:"input must be type string"})
+
+    //     if(!validUrl.isWebUri(data.longUrl.trim()))return res.status(400).send({status:false,msg:"enter valid Url"})
  
 
        
