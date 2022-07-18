@@ -16,7 +16,7 @@ const createShortUrl=async function(req,res){
     
         if(!data.longUrl.trim())return res.status(400).send({status:false,msg:"longUrl is required and can not be empty"})
        
-        if(!validUrl.isWebUri(data.longUrl.trim()))return res.status(400).send({status:false,msg:"enter valid Url"})
+        if(!validUrl.isUri(data.longUrl.trim()))return res.status(400).send({status:false,msg:"enter valid Url"})
  
         const findUrl=await urlModel.findOne({longUrl:longUrl})
         if(findUrl)return res.status(200).send({status:true,msg:"shortened url successfully",data:findUrl})
