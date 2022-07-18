@@ -38,12 +38,13 @@ const createShortUrl=async function(req,res){
 
 const getUrl = async function (req , res) {
 try {
-    let urlCode = req.params.urlCode
-    let findurl = await urlModel.findOne({urlCode:urlCode})
-    if(!findurl){
+    let urlCode = req.params.urlCode.trim()
+    if(urlCode.length!=7)return res.status(404).send({status:false, message: "Url not found"})
+    let findUrl = await urlModel.findOne({urlCode:urlCode})
+    if(!findUrl){
         return res.status(404).send({status:false, message: "Url not found"})
     }
-    return res.status(302).send({status:true, message: "Redirecting to " + findurl.longUrl})
+    return res.status(302).send( "Redirecting to: " + findUrl.longUrl)
 
 } catch (error) {
     return res.status(500).send({msg:error.msg})
