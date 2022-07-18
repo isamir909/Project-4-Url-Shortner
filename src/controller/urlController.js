@@ -19,7 +19,7 @@ const createShortUrl=async function(req,res){
         if(!validUrl.isWebUri(data.longUrl.trim()))return res.status(400).send({status:false,msg:"enter valid Url"})
  
         const findUrl=await urlModel.findOne({longUrl:longUrl})
-        if(findUrl)return res.status(201).send({status:true,msg:"shortened url successfully",data:findUrl})
+        if(findUrl)return res.status(200).send({status:true,msg:"shortened url successfully",data:findUrl})
         
         const uid=new shortId({length: 7})
         const urlCode=uid();

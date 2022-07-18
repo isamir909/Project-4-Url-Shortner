@@ -38,10 +38,6 @@ If you haven’t used tinyurl.com before, please try creating a new shortened UR
 ```
 
 ### POST /url/shorten
-<!-- input ww.bnxdbn.com
-uniqueid
-http://localhost:3000/+uniqueid
-res:http://localhost:3000/+uniqueid -->
 
 - Create a short URL for an original url recieved in the request body.
 - The baseUrl must be the application's baseUrl. Example if the originalUrl is http://abc.com/user/images/name/2 then the shortened url should be http://localhost:3000/xyz
