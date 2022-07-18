@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 mongoose.connect("mongodb+srv://samirlohiya909:Lohiya123@samirlohiya.nszppy8.mongodb.net/Project-4group04Database?retryWrites=true&w=majority",{
-    useNewUrlsParser:true
+    useNewUrlParser:true
 })
 .then(()=>console.log("MongoDb is connected"))
 .catch(err=>{
@@ -19,5 +19,5 @@ mongoose.connect("mongodb+srv://samirlohiya909:Lohiya123@samirlohiya.nszppy8.mon
 app.use("/",router);
 
 app.listen(process.env.PORT||3000,function()
-   { console.log("express app running on port" +(process.env.PORT||3000 ))});
+   { console.log("express app running on port " +(process.env.PORT||3000 ))});
 
