@@ -29,7 +29,9 @@ const createShortUrl=async function(req,res){
         data["shortUrl"]=shortUrl
 
        const createData=await urlModel.create(data)
-        return res.status(201).send({status:true,msg:"shortened url successfully",data:createData})
+       let shortenedUrl ={longUrl:createData.longUrl,shortUrl:createData.shortUrl,urlCode:createData.urlCode}
+       
+        return res.status(201).send({status:true,msg:"shortened url successfully",data:shortenedUrl})
 
     } catch (error) {
         return res.status(500).send({msg:error.msg})
