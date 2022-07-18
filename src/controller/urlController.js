@@ -18,8 +18,8 @@ const createShortUrl=async function(req,res){
        
         if(!validUrl.isWebUri(data.longUrl.trim()))return res.status(400).send({status:false,msg:"enter valid Url"})
  
-        const findUrl=await urlModel.findOne({longUrl:longUrl})
-        if(findUrl)return res.status(201).send({status:true,msg:"shortened url successfully",data:findUrl})
+        const findUrl=await urlModel.findOne({longUrl:longUrl}).select({_id:0,longUrl:1,shortUrl:1,urlCode:1})
+        if(findUrl)return res.status(200).send({status:true,msg:"shortened url successfully",data:findUrl})
         
         const uid=new shortId({length: 7})
         const urlCode=uid();
@@ -29,7 +29,9 @@ const createShortUrl=async function(req,res){
         data["shortUrl"]=shortUrl
 
        const createData=await urlModel.create(data)
-        return res.status(201).send({status:true,msg:"shortened url successfully",data:createData})
+       let shortenedUrl ={longUrl:createData.longUrl,shortUrl:createData.shortUrl,urlCode:createData.urlCode}
+       
+        return res.status(201).send({status:true,msg:"shortened url successfully",data:shortenedUrl})
 
     } catch (error) {
         return res.status(500).send({msg:error.msg})
