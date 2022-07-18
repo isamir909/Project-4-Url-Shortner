@@ -6,6 +6,7 @@ const urlController=require('../controller/urlController')
 
 
 router.post('/url/shorten',urlController.createShortUrl)
+router.get("/:urlCode", urlController.getUrl)
 
 
 
