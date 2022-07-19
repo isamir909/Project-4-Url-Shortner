@@ -1,5 +1,5 @@
 const urlModel=require('../model/urlModel')
-const shortId=require('short-unique-id')
+const shortId=require('shortid')
 const validUrl = require('valid-url');
 
 
@@ -18,11 +18,10 @@ const createShortUrl=async function(req,res){
        
         if(!validUrl.isUri(data.longUrl.trim()))return res.status(400).send({status:false,msg:"enter valid Url"})
  
-        const findUrl=await urlModel.findOne({longUrl:longUrl})
+        const findUrl=await urlModel.findOne({longUrl:longUrl}).select({urlCode:1,shortUrl:1,longUrl:1,_id:0})
         if(findUrl)return res.status(200).send({status:true,msg:"shortened url successfully",data:findUrl})
-        
-        const uid=new shortId({length: 7})
-        const urlCode=uid();
+         
+        const urlCode=shortId.generate()
         data['urlCode']=urlCode
 
         const shortUrl ="http://localhost:3000/"+urlCode
@@ -36,26 +35,25 @@ const createShortUrl=async function(req,res){
     } catch (error) {
         return res.status(500).send({msg:error.msg})
     }
-}
+};
+
 
 const getUrl = async function (req , res) {
 try {
     let urlCode = req.params.urlCode.trim()
-    if(urlCode.length!=7)return res.status(404).send({status:false, message: "Url not found"})
+
+    if(!shortId.isValid(urlCode))return res.status(400).send({status:false, message: "invalid short url, provide correct url"})
     let findUrl = await urlModel.findOne({urlCode:urlCode})
     if(!findUrl){
-        return res.status(404).send({status:false, message: "Url not found"})
+        return res.status(404).send({status:false, message: "No Url found"})
     }
-    return res.status(302).send( "Redirecting to: " + findUrl.longUrl)
+    return res.status(302).redirect(findUrl.longUrl)
 
 } catch (error) {
     return res.status(500).send({msg:error.msg})
     
 }
-}
-
-
-
+};
 
 
 
