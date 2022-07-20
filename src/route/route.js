@@ -10,8 +10,6 @@ router.get("/:urlCode", urlController.getUrl)
 
 
 
-
-
 //......................invalid params....................................//
 router.all('*',function (req,res){res.status(400).send({msg:"this page does not exist"})})
 
