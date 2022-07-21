@@ -38,24 +38,24 @@ const createShortUrl=async function(req,res){
  
 const getUrl = async function (req , res) {
     try { 
-        let urlCode = req.params.urlCode.trim();
+        let urlCodeRequest = req.params.urlCode.trim();
         
         //if(!shortId.isValid(urlCode))return res.status(400).send({status:false, message: "invalid short url, provide correct url"})
        
-        let cachedUrlCode = await GET_ASYNC(`${urlCode}`)
-           
+        let cachedUrlCode = await GET_ASYNC(`${urlCodeRequest}`)
+                 
         if(cachedUrlCode) {
             cachedUrlCode = JSON.parse(cachedUrlCode);
             return res.status(302).redirect(cachedUrlCode.longUrl)
         } else{
-            let findUrl = await urlModel.findOne({urlCode:urlCode})
-           if(!findUrl){return res.status(404).send({status:false, message: "No Url found"})}
+            let findUrl = await urlModel.findOne({urlCode:urlCodeRequest})
+         if(!findUrl){return res.status(404).send({status:false, message: "No Url found"})}
             await SET_ASYNC(`${req.params.urlCode}`, JSON.stringify(findUrl))
-            return res.status(302).redirect({ data: findUrl.longUrl });
-        } 
+            return res.status(302).redirect(findUrl.longUrl );
+        }   
     } catch (error) {
         return res.status(500).send({msg:error.msg})
         
-    }};
+    }}; 
 
 module.exports={createShortUrl,getUrl}
