@@ -44,7 +44,6 @@ const createShortUrl=async function(req,res){
 const getUrl = async function (req , res) {
     try { 
         let urlCodeRequest = req.params.urlCode.trim();
-        
         let cachedUrlCode = await GET_ASYNC(`${urlCodeRequest}`)
                  
         if(cachedUrlCode) {
